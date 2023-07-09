@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {                        
+      "target": "ESNext",                               
+      "module": "Node16",
+      "outDir": "./dist",   
+      "lib": ["ESNext"],                          
+      "rootDir": "./",
+      "strict": true,
+      "moduleResolution": "Node16",
+      "experimentalDecorators": true,
+      "resolveJsonModule": true,
+      "esModuleInterop": true,                       
+    },
+    "exclude":[
+      "./node_modules"
+    ],
+    "ts-node": {
+      "transpileOnly": true,
+      "files": true,
+      "experimentalResolver": true
+    }
+  }
