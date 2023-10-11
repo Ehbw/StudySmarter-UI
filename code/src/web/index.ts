@@ -6,11 +6,8 @@ import { fileURLToPath } from 'url';
 import setRouter from './api/studysets.js';
 import timelineRouter from './api/timeline.js';
 
-import config from '../config.js';
 const __dirname = dirname(fileURLToPath(import.meta.url))
-
-
-export const study: StudySmarter = new StudySmarter(config.auth.username, config.auth.password);
+export const study = new StudySmarter();
 
 const app = express()
 const port = 3000

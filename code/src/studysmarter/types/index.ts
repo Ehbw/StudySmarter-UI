@@ -4,8 +4,8 @@ export enum Endpoints {
     FLASHCARD = "/studysets/SETID/flashcards/CARDID",
     FLASHCARDS = "/studysets/SETID/flashcards/",
     SUBSETS = "/studysets/SETID/subtopics/",
-    TAGS = "/SETID/tags/?content_filter=flashcards",
-    FLASHCARD_SEARCH = "/SETID/flashcards/?search=&s_bad=true&s_medium=true&s_good=true&s_trash=false&s_unseen=true&tag_ids=&quantity=600&created_by=&order=anti-chronological&cursor="
+    TAGS = "/studysets/SETID/tags/?content_filter=flashcards",
+    FLASHCARD_SEARCH = "/studysets/SETID/flashcards/?search=&s_bad=true&s_medium=true&s_good=true&s_trash=false&s_unseen=true&tag_ids=&quantity=600&created_by=&order=anti-chronological&cursor="
 }
 
 // VALID Feburary 2023
@@ -46,7 +46,7 @@ export type Flashcard = {
         width: number,
         xfdfString: null
     }[],
-    hint_html: string[], //TODO: Find type, likely string
+    hint_html: string[], 
     id: number,
     is_reference: boolean,
     is_type_answer: boolean,

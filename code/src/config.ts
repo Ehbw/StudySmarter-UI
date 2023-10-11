@@ -18,8 +18,6 @@ declare var process : {
     }
 }
 
-console.log(process.env.SS_AUTH_DOMAIN)
-
 export default {
     endpoint: process.env.SS_DOMAIN,
     allowedStudysets: (process.env.SS_ALLOWEDSETS || "").split(",").map((val) => Number.parseInt(val)),

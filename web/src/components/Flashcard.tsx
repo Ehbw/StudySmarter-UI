@@ -212,7 +212,7 @@ export const Flashcard: React.FC<FlashcardProps> = (props) => {
                             />
                         </div>
                     </ScrollArea>
-                    <Menu>
+                    <Menu withinPortal>
                         <Menu.Target>
                             <UnstyledButton
                                 component='a'
@@ -275,8 +275,8 @@ export const FlashcardBadges: React.FC<BadgesProp> = ({tags, flashTags}) => {
         <>
             {displayTags && displayTags.map((tag) => (
                 <Badge style={{
-                    background: TagColors[tag.colour].background,
-                    color: TagColors[tag.colour].subject
+                    background: TagColors[tag.colour as 1 | 2 | 3 | 4 | 5].background,
+                    color: TagColors[tag.colour as 1 | 2 | 3 | 4 | 5].subject
                 }}
                 >
                     {tag.name}

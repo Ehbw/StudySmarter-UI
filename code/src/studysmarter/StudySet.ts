@@ -1,6 +1,6 @@
 import { Endpoints, Flashcard, Studyset, Tag } from "./types/index.js";
 import { MakeRequest } from "./data/HTTP.js";
-import { FlashcardRetval, SubsetRetval, TagRetval } from "./types/requests.js";
+import { CreateFlashCardRetval, FlashcardRetval, SubsetRetval, TagRetval } from "./types/requests.js";
 
 export class StudySet {
     private _data: Studyset;
@@ -21,8 +21,8 @@ export class StudySet {
     
     constructor( data: Studyset) {
         this._data = data
-        this.GetTags().then((data:Tag[]) => this._tags = data) 
-        this.GetSubset().then((data: Studyset[]) => this._subsets = data)
+        this.GetTags().then((data:Tag[]) => this._tags = data)//.catch((err) => console.log(err))
+        this.GetSubset().then((data: Studyset[]) => this._subsets = data).catch((err) => console.log(err))
         setInterval(this.GetFlashCards.bind(this), 300000)
     }
 
@@ -55,6 +55,7 @@ export class StudySet {
         return await new Promise((resolve, reject) => {
             MakeRequest("GET", Endpoints.FLASHCARD_SEARCH.replace("SETID", this._data.id.toString()))
             .then(async(res) => {
+                console.log(res)
                 let body = await res.json() as FlashcardRetval
                 if(res.status === 200 || body.results)
                     return resolve(body.results)
@@ -65,7 +66,7 @@ export class StudySet {
     }
 
     public async CreateFlashCard(question: string, answer: string, tags: number[], subsetID?: number): Promise<boolean> {
-        return await new Promise((resolve, reject) => {
+        return await new Promise((resolve) => {
             let setID = this._data.id
             if(subsetID){
                 let subsets = this._subsets.filter((subset) => subset.id == subsetID)
@@ -95,8 +96,8 @@ export class StudySet {
             })
             .then(async (res) => {
                 //TODO: Type
-                let body = await res.json() as any
-                return resolve((res.status === 200 || (body && body.id)))
+                let body = await res.json() as CreateFlashCardRetval
+                return resolve((res.status === 200 && body.id != undefined))
             })
             .catch((err) => {
                 console.log(err)
@@ -142,6 +143,10 @@ export class StudySet {
             })
             .then((res) => {
                 return resolve(res.status === 200)
+            })
+            .catch((err) => {
+                console.log(err)
+                return resolve(false)   
             })
         })
     }

@@ -1,12 +1,10 @@
-import { Request, SuperAgentRequest } from "superagent";
 import { Endpoints } from "../types/index.js";
 import config from "../../config.js";
 import fetch, {Headers} from 'node-fetch';
+import http from 'http';
+import https from 'https';
 
 type HTTPRequests = "GET" | "HEAD" | "POST" | "OPTIONS" | "PUT" | "PATCH" | "DELETE" | "CONNECT" | "TRACE";
-
-const http = require('http');
-const https = require('https');
 
 const httpAgent = new http.Agent({ keepAlive: true });
 const httpsAgent = new https.Agent({ keepAlive: true });
@@ -29,8 +27,6 @@ const headers = {
 }
 
 const reqHeaders = new Headers(headers)
-
-
 export async function MakeRequest(type: HTTPRequests, endpoint: Endpoints | string, data?: any) {
     console.log(`Making ${type} request to ${config.endpoint}${endpoint}`)
 
