@@ -108,7 +108,6 @@ setRouter.post('/:setID/cards',
 body("tags").exists().isArray(),
 body("question").exists(),
 body("answer").exists(),
-body("subsetID").optional().isNumeric(),
 async(req: Request, res: Response) => {
     const errors = validationResult(req)
     if(!errors.isEmpty())
