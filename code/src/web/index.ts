@@ -5,9 +5,12 @@ import path, {dirname} from 'path';
 import { fileURLToPath } from 'url';
 import setRouter from './api/studysets.js';
 import timelineRouter from './api/timeline.js';
+
+import config from '../config.js';
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
-export const study: StudySmarter = new StudySmarter(process.env.SS_EMAIL, process.env.SS_PASSWORD)
+
+export const study: StudySmarter = new StudySmarter(config.auth.username, config.auth.password);
 
 const app = express()
 const port = 3000
@@ -24,5 +27,5 @@ app.use((_, res) => {
 })
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`Listening on port ${port}`)
 })

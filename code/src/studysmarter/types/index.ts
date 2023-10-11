@@ -1,12 +1,14 @@
 export enum Endpoints {
-    AUTH = "https://prod.studysmarter.de/api-token-auth/",
-    STUDYSETS = "https://prod.studysmarter.de/studysets/",
-    FLASHCARD = "https://prod.studysmarter.de/studysets/SETID/flashcards/CARDID",
-    //https://prod.studysmarter.de/studysets/12808997/flashcards/185510965/
-    TAGS = "https://prod.studysmarter.de/studysets/SETID/tags/?content_filter=flashcards",
-    FLASHCARD_SEARCH = "https://prod.studysmarter.de/studysets/SETID/flashcards/?search=&s_bad=true&s_medium=true&s_good=true&s_trash=false&s_unseen=true&tag_ids=&quantity=600&created_by=&order=anti-chronological&cursor="
+    AUTH = "/api-token-auth/",
+    STUDYSETS = "/studysets/",
+    FLASHCARD = "/studysets/SETID/flashcards/CARDID",
+    FLASHCARDS = "/studysets/SETID/flashcards/",
+    SUBSETS = "/studysets/SETID/subtopics/",
+    TAGS = "/SETID/tags/?content_filter=flashcards",
+    FLASHCARD_SEARCH = "/SETID/flashcards/?search=&s_bad=true&s_medium=true&s_good=true&s_trash=false&s_unseen=true&tag_ids=&quantity=600&created_by=&order=anti-chronological&cursor="
 }
 
+// VALID Feburary 2023
 export type LoginResponse = {
     token: string;
     language: string;
@@ -100,7 +102,7 @@ export type Studyset = {
             class_levels: null | number[] | any,
             id: number,
             name: string,
-            school_types: [],
+            school_types: string[],
         }
     }[],
     country_ids: number[], 

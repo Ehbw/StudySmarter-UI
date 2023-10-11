@@ -1,9 +1,8 @@
 import { Endpoints, Flashcard, Studyset, Tag } from "./types/index.js";
-import * as superagent from 'superagent';
+import { MakeRequest } from "./data/HTTP.js";
+import { FlashcardRetval, SubsetRetval, TagRetval } from "./types/requests.js";
 
 export class StudySet {
-    private _http: superagent.SuperAgentStatic & superagent.Request;
-    private _token: string;
     private _data: Studyset;
     private _tags: Tag[] = [];
     private _subsets: Studyset[] = [];
@@ -20,9 +19,7 @@ export class StudySet {
         return this._subsets
     }
     
-    constructor(http: superagent.SuperAgentStatic & superagent.Request, token: string, data: Studyset) {
-        this._http = http
-        this._token = token
+    constructor( data: Studyset) {
         this._data = data
         this.GetTags().then((data:Tag[]) => this._tags = data) 
         this.GetSubset().then((data: Studyset[]) => this._subsets = data)
@@ -31,49 +28,39 @@ export class StudySet {
 
     private async GetSubset(): Promise<Studyset[]> {
         return await new Promise((resolve, reject) => {
-            this._http
-            .get(`https://prod.studysmarter.de/studysets/${this._data.id}/subtopics/`)
-            .set("authorization", `Token ${this._token}`)
-            .then((res: superagent.Response) => {
-                if(res.status === 200){
-                    resolve(res.body as Studyset[])
-                }
+            MakeRequest("GET", Endpoints.SUBSETS.replace("SETID", this._data.id.toString()))
+            .then(async (res) => {
+                let body = await res.json() as SubsetRetval
+                if(res.status == 200)
+                    resolve(body)
             })
-            .catch((err: superagent.ResponseError) => {
-                console.error(err)
-            })
+            .catch((err) => reject(`Unable to login: ${err.message}`))
         })
     }
 
     private async GetTags(): Promise<Tag[]> {
         return await new Promise((resolve, reject) => {
-            this._http.get(Endpoints.TAGS.replace("SETID", this._data.id.toString()))
-            .set("authorization", `Token ${this._token}`)
-            .then((res: superagent.Response) => {
-                if(res.statusCode === 200 || res.body.all_parent_tags || res.body.studyset_tags){
-                    return resolve(res.body.all_parent_tags as Tag[])
-                }
+            MakeRequest("GET", Endpoints.TAGS.replace("SETID", this._data.id.toString()))
+            .then(async(res) => {
+                let body = await res.json() as TagRetval
+                if(res.status === 200 || body.all_parent_tags || body.studyset_tags)
+                    return resolve(body.all_parent_tags)
                 reject("Unable to fetch tags")
             })
-            .catch((err: superagent.ResponseError) => {
-                reject("Unable to fetch tags: " + (err.cause ?? err.message))
-            })
+            .catch((err) => reject(`Unable to fetch tags: ${err.message}`))
         })
     }
 
     public async GetFlashCards(): Promise<Flashcard[]> {
         return await new Promise((resolve, reject) => {
-            this._http.get(Endpoints.FLASHCARD_SEARCH.replace("SETID", this._data.id.toString()))
-            .set("authorization", `Token ${this._token}`)
-            .then((res: superagent.Response) => {
-                if(res.statusCode === 200 || res.body.results){
-                    return resolve(res.body.results as Flashcard[])
-                }
+            MakeRequest("GET", Endpoints.FLASHCARD_SEARCH.replace("SETID", this._data.id.toString()))
+            .then(async(res) => {
+                let body = await res.json() as FlashcardRetval
+                if(res.status === 200 || body.results)
+                    return resolve(body.results)
                 reject("Unable to retrive flashcards")
             })
-            .catch((err: superagent.ResponseError) => {
-                reject("Unable to retrive flashcards: " + (err.cause ?? err.message))
-            })
+            .catch((err) => reject(`Unable to retrive flashcards: ${err.message}`))
         })
     }
 
@@ -91,15 +78,7 @@ export class StudySet {
                 }
             }
 
-            this._http
-            .post(`https://prod.studysmarter.de/studysets/${setID}/flashcards/`)
-            .set("authorization", `Token ${this._token}`)
-            .set("origin", "https://app.studysmarter.de")
-            .set("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36")
-            .set("accept", "application/json, text/plain, */*")
-            .set("accept-encoding", "gzip, deflate, br")
-            .set("accept-language", "en-GB,en;q=0.8")
-            .send({
+            MakeRequest("POST", `${Endpoints.FLASHCARDS.replace("SETID", setID.toString())}`, {
                 answer_html: [{
                     is_correct: true,
                     text: answer
@@ -114,13 +93,12 @@ export class StudySet {
                 solution_html: "",
                 tags: tags
             })
-            .then((res: superagent.Response) => {
-                if(res.status === 200 || (res.body && res.body.id)){
-                    return resolve(true)
-                }
-                resolve(false)
+            .then(async (res) => {
+                //TODO: Type
+                let body = await res.json() as any
+                return resolve((res.status === 200 || (body && body.id)))
             })
-            .catch((err: superagent.ResponseError) => {
+            .catch((err) => {
                 console.log(err)
                 resolve(false)
             })
@@ -129,22 +107,14 @@ export class StudySet {
 
     public async DeleteFlashCard(id: number): Promise<boolean> {
         return await new Promise((resolve, reject) => {
-            this._http
-            .delete(`https://prod.studysmarter.de/studysets/${this.data.id}/flashcards/${id}/`)
-            .set("authorization", `Token ${this._token}`)
-            .set("origin", "https://app.studysmarter.de")
-            .set("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36")
-            .set("accept", "application/json, text/plain, */*")
-            .set("accept-encoding", "gzip, deflate, br")
-            .set("accept-language", "en-GB,en;q=0.8")
-            .send({
+            MakeRequest("DELETE", `${Endpoints.FLASHCARD.replace("SETID", this._data.id.toString())}`, {
                 id: id
             })
-            .then((res: superagent.Response) => {
+            .then((res) => {
                 console.log(res.body)
                 resolve(true)
             })
-            .catch((err: superagent.ResponseError) => {
+            .catch((err) => {
                 console.log(err)
                 resolve(false)
             })
@@ -153,15 +123,9 @@ export class StudySet {
 
     public async EditFlashCard(id: number, question: string, answer: string, tags: number[]): Promise<boolean> {
         return await new Promise((resolve, reject) => {
-            this._http
-            .patch(`https://prod.studysmarter.de/studysets/${this.data.id}/flashcards/${id}/`)
-            .set("authorization", `Token ${this._token}`)
-            .set("origin", "https://app.studysmarter.de")
-            .set("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36")
-            .set("accept", "application/json, text/plain, */*")
-            .set("accept-encoding", "gzip, deflate, br")
-            .set("accept-language", "en-GB,en;q=0.8")
-            .send({
+            MakeRequest("PATCH", Endpoints.FLASHCARD
+            .replace("SETID", this._data.id.toString())
+            .replace("CARDID", id.toString()), {
                 question_html: [{
                     text: question,
                     is_correct: true
@@ -176,11 +140,8 @@ export class StudySet {
                 shared: 2,
                 solution_html: ""
             })
-            .then((res: superagent.Response) => {
-                if(res.statusCode === 200){
-                    return resolve(true)
-                }
-                resolve(false)
+            .then((res) => {
+                return resolve(res.status === 200)
             })
         })
     }
