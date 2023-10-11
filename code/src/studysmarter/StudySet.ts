@@ -95,9 +95,8 @@ export class StudySet {
                 tags: tags
             })
             .then(async (res) => {
-                //TODO: Type
                 let body = await res.json() as CreateFlashCardRetval
-                return resolve((res.status === 200 && body.id != undefined))
+                return resolve(body.id != undefined)
             })
             .catch((err) => {
                 console.log(err)

@@ -81,8 +81,10 @@ export class StudySmarter {
                 let body = await res.json() as StudySetRetval
                 if(res.status === 200){
                     let sets: StudySet[] = []
-                    for (let i = 0; i < body.results.length; i++){
-                        sets.push(new StudySet(body.results[i]))
+                    let allowedSets = body.results.filter((v) => config.allowedStudysets.includes(v.id))
+                    console.log(allowedSets)
+                    for (let i = 0; i < allowedSets.length; i++){
+                        sets.push(new StudySet(allowedSets[i]))
                     }
                     return resolve(sets)
                 }
