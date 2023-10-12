@@ -7,7 +7,7 @@ import { NavbarButton } from "../components/navbar/Button";
 import { Nav } from "../components/navbar/Navbar";
 
 type TemplateProps = {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }
 
 const Template: React.FC<TemplateProps> = ({children}) => {
@@ -16,16 +16,19 @@ const Template: React.FC<TemplateProps> = ({children}) => {
 
     return (
       <AppShell
-        navbarOffsetBreakpoint="sm"
-        navbar={
-          <Nav display={navbar}>
-            <NavbarButton icon={<FontAwesomeIcon icon="house" fixedWidth />} label="Dashboard" link="/" color="green"/>
-            <NavbarButton icon={<FontAwesomeIcon icon="book-open" fixedWidth />} label="Study Sets" link="/sets" color="red"/>
-          </Nav>
-        }
-        header={matches ? undefined : (<NavHeader navbar={navbar} setNavbar={setNavbar} />)}
+        navbar={{
+          breakpoint: "sm",
+          width: 300
+        }}
       >
-        {children}
+        <NavHeader navbar={navbar} setNavbar={setNavbar} />
+        <Nav display={navbar}>
+          <NavbarButton icon={<FontAwesomeIcon icon="house" fixedWidth />} label="Dashboard" link="/" color="green"/>
+          <NavbarButton icon={<FontAwesomeIcon icon="book-open" fixedWidth />} label="Study Sets" link="/sets" color="red"/>
+        </Nav>
+        <AppShell.Main>
+          {children}
+        </AppShell.Main>
       </AppShell>
     )
 }

@@ -2,6 +2,8 @@ import { DefaultMantineColor, Group, Text, ThemeIcon, UnstyledButton } from "@ma
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+import classes from './button.module.css';
+
 type NavbarButtonProps = {
     icon: React.ReactNode;
     link?: string; 
@@ -16,18 +18,7 @@ export const NavbarButton: React.FC<NavbarButtonProps> = ({icon, link, label, co
         <UnstyledButton 
             component="a"
             href={link}
-            sx={(theme) => ({
-                display: "block",
-                width: "100%",
-                padding: theme.spacing.xs,
-                borderRadius: theme.radius.sm,
-                color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
-
-                '&:hover': {
-                    backgroundColor:
-                        theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0]
-                }
-            })}
+            className={classes.button}
         >
             <Group>
                 <ThemeIcon color={color} variant="light">

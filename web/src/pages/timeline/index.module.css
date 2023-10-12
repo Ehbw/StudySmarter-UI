@@ -1,0 +1,18 @@
+.title {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.timelineName {
+    font-size: 18px;
+    margin-bottom: 0;
+    font-weight: 600;
+}
+
+.timelinePeriod {
+    font-size: 12px;
+}
+
+.group {
+    gap: 8px;
+}

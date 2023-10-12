@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { useSets } from '../../hooks/useSets';
 import { StudySet } from '../../types/StudySet';
 
+import classes from "./index.module.css";
+
 export const ListSetsPage: React.FC = () => {
     const sets = useSets()
     const navigation = useNavigate()
@@ -25,16 +27,16 @@ export const ListSetsPage: React.FC = () => {
                         }}
                     >
                         <Stack>
-                            <Group position='apart'>
+                            <Group>
                                 <Badge color="pink" variant="light">
                                     HISTORY
                                 </Badge>
                             </Group>
-                            <Group position="apart">
-                                <Text weight={600} size={20}>{set.name}</Text>
+                            <Group>
+                                <Text className={classes.titleText} size={"xl"}>{set.name}</Text>
                             </Group>
-                            <Group position="apart">
-                                <Text size={12}><b>{set.flashcards}</b> flashcards</Text>
+                            <Group>
+                                <Text className={classes.countText}><b>{set.flashcards}</b> flashcards</Text>
                             </Group>
 
                         </Stack>

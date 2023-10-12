@@ -1,10 +1,10 @@
-import { Badge, Card, Group, Stack, Text, Menu, UnstyledButton, ScrollArea, createStyles, Center, Modal, MultiSelect, Button, Box, Select } from '@mantine/core';
+import { Badge, Card, Group, Stack, Text, Menu, UnstyledButton, ScrollArea, Center, Modal, MultiSelect, Button, Box, Select } from '@mantine/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Tag } from '../pages/set/View';
 import { MarkdownText } from './MarkdownText';
 import { useEffect, useState } from 'react';
-import RichTextEditor from '@mantine/rte';
-import axios, { AxiosResponse } from 'axios';
+
+import classes from './flashcard.module.css';
 
 type FlashcardProps = {
     tagData: Tag[];
@@ -31,19 +31,6 @@ const TagColors = {
     5: {background: "rgba(228, 123, 1, .1)", subject: "#e47b01"}
 }
 
-const useStyle = createStyles((theme) => ({
-    card: {
-        height: "200px",
-        width: "250px",
-        shadow:"sm",
-        p: "lg",
-        radius:"md",
-
-        [`@media (max-width: ${theme.breakpoints.xs }px)`]: {
-            width: "95%"
-        },
-    }
-}))
 
 type CreateProps = {
     setID: number;
@@ -57,7 +44,6 @@ type CreateProps = {
 }
 
 export const CreateFlashcard: React.FC<CreateProps> = (props) => {
-    const {classes} = useStyle()
     const [select, setSelect] = useState<{label: string, value: string}[]>([])
     const [multiSelect, setMultiSelect] = useState<{label: string, value: string}[]>([])
     const [question, setQuestion] = useState<string>("")
@@ -80,7 +66,7 @@ export const CreateFlashcard: React.FC<CreateProps> = (props) => {
         }
     }, [props.sets])
 
-    return (
+    /*return (
         <>
             <Modal
                 opened={isOpen}
@@ -95,7 +81,7 @@ export const CreateFlashcard: React.FC<CreateProps> = (props) => {
             >
                 <Stack>
                     <Box>
-                        <Text sx={{ fontSize: 14, fontWeight: 500}}>Question</Text>
+                        <Text style={{ fontSize: 14, fontWeight: 500}}>Question</Text>
                         <RichTextEditor
                             title='Question'
                             id="question"
@@ -111,7 +97,7 @@ export const CreateFlashcard: React.FC<CreateProps> = (props) => {
                     </Box>
 
                     <Box>
-                        <Text sx={{ fontSize: 14, fontWeight: 500}}>Answer</Text>
+                        <Text style={{ fontSize: 14, fontWeight: 500}}>Answer</Text>
                         <RichTextEditor
                             title='Answer'
                             id="answer"
@@ -192,11 +178,14 @@ export const CreateFlashcard: React.FC<CreateProps> = (props) => {
             </Card>
         </>
 
+    )*/
+
+    return (
+        <h1>test</h1>
     )
 }
 
 export const Flashcard: React.FC<FlashcardProps> = (props) => {
-    const {classes} = useStyle()
     return (
         <Card 
             className={classes.card}

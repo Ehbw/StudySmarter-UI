@@ -1,6 +1,6 @@
 import { Button, Group, Modal, MultiSelect, Stack } from '@mantine/core';
 import React, { useEffect, useState } from 'react';
-import { RichTextEditor } from '@mantine/rte';
+//import { RichTextEditor } from '@mantine/rte';
 import { Tag } from '../../pages/set/View';
 
 type EditModalProps = {
@@ -28,7 +28,7 @@ export const EditModal: React.FC<EditModalProps> = (props) => {
     
     }, [props.tags])
     
-    return (
+    /*return (
         <Modal
             opened={props.isOpen}
             onClose={props.onClose}
@@ -94,5 +94,8 @@ export const EditModal: React.FC<EditModalProps> = (props) => {
                 </Group>
             </Stack>
         </Modal>
+    )*/
+    return (
+        <h1>test</h1>
     )
 }

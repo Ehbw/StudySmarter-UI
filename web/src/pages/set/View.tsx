@@ -116,7 +116,7 @@ export const SetPage: React.FC = () => {
                 }}
             />
 
-            <Group spacing={8}>
+            <Group gap={8}>
                 {data && (
                     <CreateFlashcard 
                         sets={data.subsets}

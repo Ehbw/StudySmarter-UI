@@ -1,5 +1,7 @@
-import { Burger, Header, MediaQuery, useMantineTheme } from "@mantine/core"
+import { AppShell, Burger, useMantineTheme } from "@mantine/core"
 import React from "react"
+
+import classes from './header.module.css';
 
 type Props = {
     navbar: boolean;
@@ -9,32 +11,18 @@ type Props = {
 export const NavHeader: React.FC<Props> = ({navbar, setNavbar}) => {
     const theme = useMantineTheme();
     return (
-        <MediaQuery
-            largerThan="sm"
-            styles={{
-                display: "none"
-            }}    
+        <AppShell.Header 
+            className={classes.header}
         >
-            <Header 
-                height={{
-                    base: 50,
-                    md: 70
-                }}
-            >
-                <div style={{
-                    display: "flex",
-                    alignItems: "center",
-                    height: "100%"
-                }}>
-                    <Burger
-                        opened={navbar}
-                        onClick={() => setNavbar((s) => !s)}
-                        size="sm"
-                        color={theme.colors.gray[6]}
-                        mr="xl" 
-                    />
-                </div>
-            </Header>
-        </MediaQuery>
+            <div className={classes.headerBurger}>
+                <Burger
+                    opened={navbar}
+                    onClick={() => setNavbar((s) => !s)}
+                    size="sm"
+                    color={theme.colors.gray[6]}
+                    mr="xl" 
+                />
+            </div>
+        </AppShell.Header>
     )
 }

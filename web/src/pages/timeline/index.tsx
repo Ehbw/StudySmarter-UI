@@ -3,6 +3,8 @@ import React from "react";
 import useFetch from 'react-fetch-hook'
 import { useNavigate } from "react-router-dom";
 
+import classes from './index.module.css';
+
 export type TimelineEntry = {
     name: string;
     description: string;
@@ -35,8 +37,8 @@ export const TimelinePage: React.FC = () => {
     
     return (
         <Box>
-            <Text sx={{ fontSize: 14, fontWeight: 500}}>Existing Timelines</Text>
-            <Group spacing={8}>
+            <Text className={classes.title}>Existing Timelines</Text>
+            <Group className={classes.group}>
                 {data && data.map((val) => (
                     <Card
                         shadow="sm" 
@@ -51,8 +53,8 @@ export const TimelinePage: React.FC = () => {
                         }}
                     >
                         <Stack>
-                            <Text size={18} mb={0} sx={{fontWeight: 600}}>{val.name}</Text>
-                            <Text size={12}>{val.startDate}-{val.endDate}</Text>
+                            <Text className={classes.timelineName}>{val.name}</Text>
+                            <Text className={classes.timelinePeriod}>{val.startDate}-{val.endDate}</Text>
                         </Stack>
                     </Card>
                 ))}
