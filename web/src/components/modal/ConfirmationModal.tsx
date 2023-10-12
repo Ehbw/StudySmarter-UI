@@ -20,14 +20,11 @@ export const ConfirmationModal: React.FC<ConfirmationProps> = (props) => {
             closeOnEscape
             styles={{ title: { textAlign: 'center', width: '100%', fontSize: 18 } }}
             title="Delete Confirmation"
-            transition="fade"
-            exitTransitionDuration={150}
         >
             <Stack>
                 <Text>Are you sure you want to delete this flashcard?</Text>
-                <Group position='right' spacing={10}>
+                <Group gap={10}>
                     <Button
-                        uppercase
                         variant="light"
                         type="button"
                         onClick={() => {
@@ -38,7 +35,6 @@ export const ConfirmationModal: React.FC<ConfirmationProps> = (props) => {
                         Cancel
                     </Button>
                     <Button
-                        uppercase
                         color="red"
                         variant="filled"
                         type="button"

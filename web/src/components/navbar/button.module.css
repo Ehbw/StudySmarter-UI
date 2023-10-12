@@ -1,11 +1,14 @@
 .button {
     display: "block";
     width: "100%";
-    padding: var(--mantine-spacing-xs);
     border-radius: var(--mantine-spacing-xs);
     color: var(--mantine-color-dark-0);
 }
 
 .button:hover {
     background-color: var(--mantine-color-dark-0) ;
+}
+
+.buttonGroup {
+    padding: 10px;
 }

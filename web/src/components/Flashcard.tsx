@@ -192,7 +192,7 @@ export const Flashcard: React.FC<FlashcardProps> = (props) => {
             withBorder
         >
             <Stack>
-                <Group position="apart">
+                <Group gap="apart">
                     <ScrollArea style={{width: "89%", height: "22px"}} scrollbarSize={2}>
                         <div style={{gap: 1, width: "max-content", overflowY: "hidden", height: "22px"}}>
                             <FlashcardBadges
@@ -214,7 +214,7 @@ export const Flashcard: React.FC<FlashcardProps> = (props) => {
                         </Menu.Target>
                         <Menu.Dropdown>
                             <Menu.Label>Card</Menu.Label>
-                            <Menu.Item icon={<FontAwesomeIcon icon={"cog"} fixedWidth />}
+                            <Menu.Item leftSection={<FontAwesomeIcon icon={"cog"} fixedWidth />}
                                 onClick={() => {
                                     props.setEditCard({
                                         id: props.id,
@@ -224,12 +224,12 @@ export const Flashcard: React.FC<FlashcardProps> = (props) => {
                                     })
                                 }}
                             >Edit</Menu.Item>
-                            <Menu.Item icon={<FontAwesomeIcon icon={"graduation-cap"} />}
+                            <Menu.Item leftSection={<FontAwesomeIcon icon={"graduation-cap"} />}
                                 component="a"
                                 href={`https://app.studysmarter.de/studysets/${props.setID}/flashcards/trainer/${props.id}`}
                             >Open in Studysmarter</Menu.Item>
                             <Menu.Divider />
-                            <Menu.Item color="red" icon={<FontAwesomeIcon icon="trash" fixedWidth />}
+                            <Menu.Item color="red" leftSection={<FontAwesomeIcon icon="trash" fixedWidth />}
                                 onClick={() => {
                                     props.setDeleteModal(props.id)
                                 }}
@@ -237,8 +237,8 @@ export const Flashcard: React.FC<FlashcardProps> = (props) => {
                         </Menu.Dropdown>
                     </Menu>
                 </Group>
-                <Group position="apart">
-                    <Text weight={600} size={15}><MarkdownText text={props.question}/></Text>
+                <Group gap="apart">
+                    <Text style={{fontSize: 15, fontWeight: 600}}><MarkdownText text={props.question}/></Text>
                 </Group>
             </Stack>
         </Card>

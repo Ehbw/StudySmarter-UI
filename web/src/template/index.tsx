@@ -11,13 +11,13 @@ type TemplateProps = {
 }
 
 const Template: React.FC<TemplateProps> = ({children}) => {
-    const [navbar, setNavbar] = useState<boolean>(false)
+    const [navbar, setNavbar] = useState<boolean>(true)
     const matches = useMediaQuery('(min-width: 768px)')
 
     return (
       <AppShell
         navbar={{
-          breakpoint: "sm",
+          breakpoint: "md",
           width: 300
         }}
       >

@@ -32,7 +32,7 @@ export const TimelineViewPage: React.FC = () => {
                 {(!isLoading && (data && data.data)) && data.data.sort(sortTimeline).map((entry, index) => (
                     <Timeline.Item key={index}>
                         <Card>
-                            <Group position="apart">
+                            <Group gap="apart">
                                 <div style={{width: "90%"}}>
                                     <Text mb={0} truncate>{entry.name}</Text>
                                 </div>

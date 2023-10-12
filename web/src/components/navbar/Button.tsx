@@ -20,7 +20,7 @@ export const NavbarButton: React.FC<NavbarButtonProps> = ({icon, link, label, co
             href={link}
             className={classes.button}
         >
-            <Group>
+            <Group className={classes.buttonGroup}>
                 <ThemeIcon color={color} variant="light">
                     {icon}
                 </ThemeIcon>
