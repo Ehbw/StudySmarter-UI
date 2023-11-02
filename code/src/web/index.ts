@@ -18,6 +18,11 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use("/api/sets", setRouter)
 app.use("/api/timeline", timelineRouter)
 
+/*app.use(express.static(path.join(__dirname, "../../dist")))
+app.use((_, res) => {
+    res.sendFile(path.join(__dirname, "../../dist/index.html"))
+})
+*/
 app.use(express.static(path.join(__dirname, "../../../web/dist")))
 app.use((_, res) => {
     res.sendFile(path.join(__dirname, "../../../web/dist/index.html"))
